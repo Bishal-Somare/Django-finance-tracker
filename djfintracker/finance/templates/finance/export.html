@@ -1,0 +1,5 @@
+{% extend 'finance/base.html' %}
+{% block title %}Export Transactions{% endblock title %}
+    <submit type="button" class="bg-blue-500 text-white px-4 py-2 rounded" onclick="window.location.href='{% url 'export' %}'">Export Transactions</submit>
+{% block content %}
+ 

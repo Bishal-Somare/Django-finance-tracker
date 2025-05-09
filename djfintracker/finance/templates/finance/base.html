@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %} {% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/forms@0.5"></script>
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-gray-800 p-4">
+    {% if user.is_authenticated %}
+    <a href="{% url 'dashboard' %}" class="text-white text-lg font-bold mx-4">Dashboard</a>
+    <a href="{% url 'transcation' %}" class="text-white text-lg font-bold">Create Transcation</a>
+    <form method="POSt" action="{% url 'logout' %}" class="inline-block">
+      {% csrf_token %}
+      <button type="submit" class="text-white text-lg font-bold">Logout</button>
+    </form>
+    {% else %}
+    <a href="{% url 'login' %}" class="text-white text-lg font-bold">Login</a>
+    <a href="{% url 'register' %}" class="text-white text-lg font-bold">Register</a>
+    {% endif %}
+    
+  </nav>
+    {% block content %} {% endblock content %}
+</body>
+</html>

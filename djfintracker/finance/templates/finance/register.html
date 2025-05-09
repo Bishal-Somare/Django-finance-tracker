@@ -1,0 +1,55 @@
+{% extends "finance/base.html" %}
+
+{% block title %}
+    Register
+{% endblock title %}
+
+{% block content %}
+
+<div class="max-w-md mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-4">Create an Account</h1>
+    <form action ="" class="space-y-4" method="POST">
+        {% csrf_token %}
+        
+        <div>
+            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+            <input type="text" name="username" id="username" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
+            {% if form.username.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.username.errors.0 }}</p>    
+            {% endif %}
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" name="email" id="email" class="mt-1 block w-full ..." required />
+            {% if form.email.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
+            {% endif %}
+        </div>
+        
+        <!-- Password -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Password</label>
+            <input type="password" name="password1" id="id_password1" class="mt-1 block w-full ..." required />
+            {% if form.password1.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.password1.errors.0 }}</p>
+            {% endif %}
+        </div>
+        
+        <!-- Confirm Password -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <input type="password" name="password2" id="id_password2" class="mt-1 block w-full ..." required />
+            {% if form.password2.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.password2.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="flex items-center justify-between mt-4">
+            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Register</button>
+        </div>
+    </form>
+    <div>
+      
+
+{% endblock content %}
+
+ 

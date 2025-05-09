@@ -1,0 +1,96 @@
+{% extends 'finance/base.html' %}
+{% block title %}Create Transaction{% endblock title %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-4">Create Transaction</h1>
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+            <input type="text" name="title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
+            {% if form.title.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.title.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div>
+            <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+            <input type="number" name="amount" id="amount" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
+            {% if form.amount.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.amount.errors.0 }}</p>
+            {% endif %} 
+        </div>
+        <div>
+            <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+            <input type="date" name="date" id="date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
+            {% if form.date.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.date.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div>
+            <label for="transaction_type" class="block text-sm font-medium text-gray-700">Transaction Type</label>
+            <select name="transaction_type" id="transaction_type" onchange="updateCategories()" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+            </select>
+            {% if form.transaction_type.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.transaction_type.errors.0 }}</p>
+            {% endif %}
+        </div>
+        {% comment %} <div>
+            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+            <select name="category" id="category" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                <!-- Income categories -->
+                <div id="income-categories">
+                    {% for cat in income_categories %}
+                    <option value="{{ cat.0 }}">{{ cat.1 }}</option>
+                    {% endfor %}
+                </div>
+                <!-- Expense categories (initially hidden) -->
+                <div id="expense-categories" style="display: none;">
+                    {% for cat in expense_categories %}
+                    <option value="{{ cat.0 }}">{{ cat.1 }}</option>
+                    {% endfor %}
+                </div>
+            </select>
+            {% if form.category.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.category.errors.0 }}</p>
+            {% endif %}
+        </div> {% endcomment %}
+        <div class="flex items-center justify-between mt-4">
+            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Create</button>
+        </div>
+    </form>
+</div>
+
+<script>
+function updateCategories() {
+    const transactionType = document.getElementById('transaction_type').value;
+    const categorySelect = document.getElementById('category');
+    
+    // Clear existing options
+    categorySelect.innerHTML = '';
+    
+    if (transactionType === 'income') {
+        // Add income categories
+        {% for cat in income_categories %}
+        const option = document.createElement('option');
+        option.value = "{{ cat.0 }}";
+        option.text = "{{ cat.1 }}";
+        categorySelect.appendChild(option);
+        {% endfor %}
+    } else {
+        // Add expense categories
+        {% for cat in expense_categories %}
+        const option = document.createElement('option');
+        option.value = "{{ cat.0 }}";
+        option.text = "{{ cat.1 }}";
+        categorySelect.appendChild(option);
+        {% endfor %}
+    }
+}
+
+// Initialize categories on page load
+document.addEventListener('DOMContentLoaded', updateCategories);
+</script>
+{% endblock content %}
